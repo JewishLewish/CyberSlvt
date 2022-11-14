@@ -1,0 +1,100 @@
+Vars = {}
+def Lang(Syntax):
+    State = 0
+    StateV = 0 #0 indicates that it is NOT ACTIVIATED! 
+    StateVC = 0 #Variable Calling
+    Token = ""
+    String = ""
+    VarString = ""
+    tempV = ""
+    for Char in Syntax:
+        Token += Char
+        if Token == " ":
+            if State == 0:
+                Token = ""
+ 
+        elif Token == "\n":
+            Token = ""
+        
+        elif Token == "as":
+            Token = ""
+ 
+        elif Token == "She Said":
+            Token = ""
+ 
+        elif Token == "\"":
+            if State == 0:
+                State = 1
+                Token = ""
+ 
+            elif State == 1:
+                State = 0
+
+                if StateV == 1:
+                    #String += VarString
+                    Vars.update({tempV: VarString})
+                    StateV = 0
+        
+
+        elif Token == "$":
+            if State == 1:
+                if StateVC == 1:
+                    String += Vars[VarString]
+
+            if State == 0:
+                State = 1
+                StateVC = 1
+                Token = ""
+
+
+
+            
+
+
+
+
+
+        
+        elif Token == "She Remembers": #Variable Saving
+            Token = ""
+
+        elif Token == "{":
+            if State == 0:
+                State = 1
+                StateV = 1
+                Token = ""
+        
+        elif Token == "}":
+            if State == 1:
+                State = 0
+                StateV = 1
+                Vars[VarString] = ""
+                tempV = VarString
+                Token = ""
+                VarString = ""
+
+
+        
+        
+        elif State == 1:
+
+            if StateVC == 1:
+                VarString += Token
+                Token = ""
+
+
+            
+            if StateV == 1: #Variable Saving
+                VarString += Token
+                Token = ""
+
+
+            elif StateV == 0:
+                String += Token
+                Token = ""
+ 
+    print(String)
+ 
+Content = open("test.ss", "r").readlines()
+for Line in Content:
+    Lang(Line)
