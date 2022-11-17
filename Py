@@ -1,7 +1,7 @@
 Vars = {} #Records all variables into definition for easier organisation
 def Lang(Syntax):
     if Syntax[0] == "?":
-        return ('')
+        return None
     State = 0 #1 = Activiated, 0 = Not Activiated
     StateV = 0 #0 indicates that it is NOT ACTIVIATED! 
     StateVC = 0 #Variable Calling
@@ -12,8 +12,17 @@ def Lang(Syntax):
     StateCMD = 0 #to check if a command is being sent, if not then error.
     num = 0 #records number
     sign = None
+    signed = 0 #Indicates if a number should be added or not
+    i = -1
+    num2 = 0
+
+
     for Char in Syntax:
+        i = i + 1
         Token += Char
+
+        if Token == "?":
+            break
 
         if Token == " ":
             if State == 0:
@@ -33,34 +42,61 @@ def Lang(Syntax):
             Token = ""
             StateCMD = 1
 
-        elif Token == '1' or Token == '2' or Token == '3' or Token == '4' or Token == '5' or Token == '6' or Token == '7' or Token == '8' or Token == '9' or Token == '0':
+        if Token == '1' or Token == '2' or Token == '3' or Token == '4' or Token == '5' or Token == '6' or Token == '7' or Token == '8' or Token == '9' or Token == '0':
             if State == 0:
-                if sign == None:
-                    num = int(Token)
+
+                if signed == 0:
+                    num = int(str(num) + str(Token))
                     Token = ''
 
-                elif sign == "+":
-                    num = int(Token) + num
-                    String = num
-                    Token = ''
+                elif signed == 1:
+
+                    if Syntax[i + 1] == " " or Syntax[i + 1] == Syntax[-1]:
+                        num2 = int(str(num2) + Token)
+                        #print("num2 inside command is " + str(num2) + ". With Token: " + Token)
+
+                        if sign == "+":
+                            num = str(int(num) + int(num2))
+
+                        elif sign == "*":
+                            num = str(int(num) * int(num2))
+
+                        elif sign == "-":
+                            num = str(int(num) - int(num2))
+
+                        elif sign == "/":
+                            num = str(int(num) / int(num2))
+
+                        num2 = 0
+                        Token = ''
+                        signed = 0
+                    else:
+                        num2 = int(str(num2) + Token)
+                        #print("num2 is " + str(num2) + ". With Token: " + Token)
+                        Token = ''
+
+            if StateV == 1:
+                Vars.update({tempV: str(num)})
 
 
-        elif Token == '+':
+
+        elif Token == '+' or Token == '*' or Token == '-' or Token == '/':
             if State == 0:
                 sign = Token
+                signed = 1
                 Token = ''
  
         elif Token == "\"" or Token == " \"":
             if State == 0:
                 State = 1
                 Token = ""
- 
+
             elif State == 1:
                 State = 0
                 Token = ""
+                String += " "
 
                 if StateV == 1:
-                    #String += VarString
                     Vars.update({tempV: VarString})
                     StateV = 0
         
@@ -119,18 +155,18 @@ def Lang(Syntax):
 
     if StateCMD == 0:
         if String == "":
-            return ('')
+            return None
         else:
             print('\033[91m' + "Error with line." + '\033[0m')
 
     if String == '':
-        return ('')
+        return None
 
     else:
         if StateCMD != 0:
             print(String)
         else:
-            print('hi')
+            print('')
  
 Content = open("test.ss", "r").readlines()
 for Line in Content:
