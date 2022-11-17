@@ -1,14 +1,20 @@
-Vars = {}
+Vars = {} #Records all variables into definition for easier organisation
 def Lang(Syntax):
-    State = 0
+    if Syntax[0] == "?":
+        return ('')
+    State = 0 #1 = Activiated, 0 = Not Activiated
     StateV = 0 #0 indicates that it is NOT ACTIVIATED! 
     StateVC = 0 #Variable Calling
     Token = ""
     String = ""
     VarString = ""
     tempV = ""
+    StateCMD = 0 #to check if a command is being sent, if not then error.
+    num = 0 #records number
+    sign = None
     for Char in Syntax:
         Token += Char
+
         if Token == " ":
             if State == 0:
                 Token = ""
@@ -18,17 +24,40 @@ def Lang(Syntax):
         
         elif Token == "as":
             Token = ""
- 
+
         elif Token == "She Said":
             Token = ""
+            StateCMD = 1
+
+        elif Token == "She Thought":
+            Token = ""
+            StateCMD = 1
+
+        elif Token == '1' or Token == '2' or Token == '3' or Token == '4' or Token == '5' or Token == '6' or Token == '7' or Token == '8' or Token == '9' or Token == '0':
+            if State == 0:
+                if sign == None:
+                    num = int(Token)
+                    Token = ''
+
+                elif sign == "+":
+                    num = int(Token) + num
+                    String = num
+                    Token = ''
+
+
+        elif Token == '+':
+            if State == 0:
+                sign = Token
+                Token = ''
  
-        elif Token == "\"":
+        elif Token == "\"" or Token == " \"":
             if State == 0:
                 State = 1
                 Token = ""
  
             elif State == 1:
                 State = 0
+                Token = ""
 
                 if StateV == 1:
                     #String += VarString
@@ -36,10 +65,13 @@ def Lang(Syntax):
                     StateV = 0
         
 
-        elif Token == "$":
+        elif Token == "%":
             if State == 1:
                 if StateVC == 1:
-                    String += Vars[VarString]
+                    try:
+                        String += Vars[VarString]
+                    except:
+                        print('\033[91m' + "Error with Variable Saving. The variable "+ VarString + " was never recorded." + '\033[0m')
 
             if State == 0:
                 State = 1
@@ -48,15 +80,10 @@ def Lang(Syntax):
 
 
 
-            
-
-
-
-
-
         
         elif Token == "She Remembers": #Variable Saving
             Token = ""
+            StateCMD = 1
 
         elif Token == "{":
             if State == 0:
@@ -82,18 +109,28 @@ def Lang(Syntax):
                 VarString += Token
                 Token = ""
 
-
-            
             if StateV == 1: #Variable Saving
                 VarString += Token
                 Token = ""
 
-
             elif StateV == 0:
                 String += Token
                 Token = ""
- 
-    print(String)
+
+    if StateCMD == 0:
+        if String == "":
+            return ('')
+        else:
+            print('\033[91m' + "Error with line." + '\033[0m')
+
+    if String == '':
+        return ('')
+
+    else:
+        if StateCMD != 0:
+            print(String)
+        else:
+            print('hi')
  
 Content = open("test.ss", "r").readlines()
 for Line in Content:
