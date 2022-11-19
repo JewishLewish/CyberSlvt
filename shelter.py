@@ -2,7 +2,7 @@
 # Vars
 ##########
 
-math = '0123456789+-*/'
+math = '0123456789'
 Vars = {}
 Vars['0x0000'] = None
 
@@ -11,7 +11,11 @@ def calc(input):
     input = input.replace('}', '')
     return input
 
-def mathematics(cs):
+def mathematics(cs, i):
+    if cs[-2] not in math:
+        value = cs.split()
+        return value[i]
+
     tex = ''
     State = 0
     resulttext = ''
@@ -32,19 +36,24 @@ def mathematics(cs):
         if State == 1:
             resulttext += tex
             tex = ''
-    cs = cs.replace(resulttext, str(eval(resulttext)))
-    return cs
+
+    if State == 1:
+        value = cs.split()
+        return value[i]
+
+    elif State == 0:
+        cs = cs.replace(resulttext, str(eval(resulttext)))
+        value = cs.split()
+        value[i] = calc(value[i])
+        return value[i]
 
 def Lexer(text):
-    Out = ''
 
     if text[0] == "?":
-
         return None
 
     value = text.split()
     i = -1
-    i2 = 0
     for x in value:
         i = i + 1
         if 'var.' in x:
@@ -55,9 +64,7 @@ def Lexer(text):
                     return ('Variable never was set.')
         if 'math{' in x:
             if x[0:5] == "math{":
-                    text = mathematics(text)
-                    value = text.split()
-                    value[i] = calc(value[i])
+                    value[i] = mathematics(text, i)
 
 
     if len(value) > 1:
