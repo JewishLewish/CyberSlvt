@@ -40,6 +40,7 @@ def Lexer(text):
 
     if text[0] == "?":
         return None
+        print('test')
 
     value = text.split()
     i = -1
