@@ -1,0 +1,16 @@
+# Statements
+
+She Said "[TEXT HERE]"
+-> 'She Said' (String) -
+
+She Remembered Var = CONDITION
+-> 'She Remembered' (VARIABLE) = (VALUE TO SAVE)
+
+# Conditios
+
+var.(Value) -> Grabs the Variable's Value
+math.{Math} -> Does the math inside the parathesis
+
+
+She Said: Hello World -> Hello World
+She Remembered: x = 20
