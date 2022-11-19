@@ -78,7 +78,6 @@ def Lexer(text):
                     Vars[value[2]] = ' '.join(value[4:len(value) + 1])
                     return ("Memorized " + value[2] + " as " + Vars[value[2]])
 
-
                 else:
                     return("Error. Inappropriate code.")
             else:
