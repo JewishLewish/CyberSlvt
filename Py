@@ -1,173 +1,85 @@
-Vars = {} #Records all variables into definition for easier organisation
-def Lang(Syntax):
-    if Syntax[0] == "?":
+##########
+# Vars
+##########
+import typing_extensions
+
+math = '0123456789+-*/'
+Vars = {}
+Vars['0x0000'] = None
+
+def calc(input):
+    input = input.replace('math{', '')
+    input = input.replace('}', '')
+    return input
+
+def mathematics(cs):
+    tex = ''
+    State = 0
+    resulttext = ''
+    for char in cs:
+        tex += char
+
+        if tex == "{":
+            tex = ''
+            State = 1
+
+        if tex == "}":
+            tex = ''
+            State = 0
+
+        if State == 0:
+            tex = ''
+
+        if State == 1:
+            resulttext += tex
+            tex = ''
+    cs = cs.replace(resulttext, str(eval(resulttext)))
+    return cs
+
+def Lexer(text):
+    Out = ''
+    if text[0] == "?":
         return None
-    State = 0 #1 = Activiated, 0 = Not Activiated
-    StateV = 0 #0 indicates that it is NOT ACTIVIATED! 
-    StateVC = 0 #Variable Calling
-    Token = ""
-    String = ""
-    VarString = ""
-    tempV = ""
-    StateCMD = 0 #to check if a command is being sent, if not then error.
-    num = 0 #records number
-    sign = None
-    signed = 0 #Indicates if a number should be added or not
+
+    value = text.split()
     i = -1
-    num2 = 0
-
-
-    for Char in Syntax:
+    i2 = 0
+    for x in value:
         i = i + 1
-        Token += Char
-
-        if Token == "?":
-            break
-
-        if Token == " ":
-            if State == 0:
-                Token = ""
- 
-        elif Token == "\n":
-            Token = ""
-        
-        elif Token == "as":
-            Token = ""
-
-        elif Token == "She Said":
-            Token = ""
-            StateCMD = 1
-
-        elif Token == "She Thought":
-            Token = ""
-            StateCMD = 1
-
-        if Token == '1' or Token == '2' or Token == '3' or Token == '4' or Token == '5' or Token == '6' or Token == '7' or Token == '8' or Token == '9' or Token == '0':
-            if State == 0:
-
-                if signed == 0:
-                    num = int(str(num) + str(Token))
-                    Token = ''
-
-                elif signed == 1:
-
-                    if Syntax[i + 1] == " " or Syntax[i + 1] == Syntax[-1]:
-                        num2 = int(str(num2) + Token)
-                        #print("num2 inside command is " + str(num2) + ". With Token: " + Token)
-
-                        if sign == "+":
-                            num = str(int(num) + int(num2))
-
-                        elif sign == "*":
-                            num = str(int(num) * int(num2))
-
-                        elif sign == "-":
-                            num = str(int(num) - int(num2))
-
-                        elif sign == "/":
-                            num = str(int(num) / int(num2))
-
-                        num2 = 0
-                        Token = ''
-                        signed = 0
-                    else:
-                        num2 = int(str(num2) + Token)
-                        #print("num2 is " + str(num2) + ". With Token: " + Token)
-                        Token = ''
-
-            if StateV == 1:
-                Vars.update({tempV: str(num)})
+        if 'var.' in x:
+            if x[0:4] == "var.":
+                if Vars.get(x[4:len(x)+1]) != None:
+                    value[i] = Vars.get(x[4:len(x)+1])
+                else:
+                    return ('Variable never was set.')
+        if 'math{' in x:
+            if x[0:5] == "math{":
+                    text = mathematics(text)
+                    value = text.split()
+                    value[i] = calc(value[i])
 
 
+    if len(value) > 1:
+        if value[1] == "Said:":
+            return (' '.join(value[2:len(value) + 1]))
 
-        elif Token == '+' or Token == '*' or Token == '-' or Token == '/':
-            if State == 0:
-                sign = Token
-                signed = 1
-                Token = ''
- 
-        elif Token == "\"" or Token == " \"":
-            if State == 0:
-                State = 1
-                Token = ""
-
-            elif State == 1:
-                State = 0
-                Token = ""
-                String += " "
-
-                if StateV == 1:
-                    Vars.update({tempV: VarString})
-                    StateV = 0
-        
-
-        elif Token == "%":
-            if State == 1:
-                if StateVC == 1:
-                    try:
-                        String += Vars[VarString]
-                    except:
-                        print('\033[91m' + "Error with Variable Saving. The variable "+ VarString + " was never recorded." + '\033[0m')
-
-            if State == 0:
-                State = 1
-                StateVC = 1
-                Token = ""
+        if value[1] == "Remembered:":
+            Vars[value[2]] = None
+            if len(value) > 3:
+                if value[3] == "=" and value[-1] != "=":
+                    Vars[value[2]] = ' '.join(value[4:len(value) + 1])
+                    return ("Memorized " + value[2] + " as " + Vars[value[2]])
 
 
-
-        
-        elif Token == "She Remembers": #Variable Saving
-            Token = ""
-            StateCMD = 1
-
-        elif Token == "{":
-            if State == 0:
-                State = 1
-                StateV = 1
-                Token = ""
-        
-        elif Token == "}":
-            if State == 1:
-                State = 0
-                StateV = 1
-                Vars[VarString] = ""
-                tempV = VarString
-                Token = ""
-                VarString = ""
-
-
-        
-        
-        elif State == 1:
-
-            if StateVC == 1:
-                VarString += Token
-                Token = ""
-
-            if StateV == 1: #Variable Saving
-                VarString += Token
-                Token = ""
-
-            elif StateV == 0:
-                String += Token
-                Token = ""
-
-    if StateCMD == 0:
-        if String == "":
-            return None
+                else:
+                    return("Error. Inappropriate code.")
+            else:
+                return("Error. Inappropriate code.")
         else:
-            print('\033[91m' + "Error with line." + '\033[0m')
+            return("Error. Inappropriate code")
 
-    if String == '':
-        return None
 
-    else:
-        if StateCMD != 0:
-            print(String)
-        else:
-            print('')
- 
-Content = open("test.ss", "r").readlines()
-for Line in Content:
-    Lang(Line)
+
+def run(text):
+    lexer = Lexer(text)
+    return lexer
