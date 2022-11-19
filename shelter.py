@@ -39,6 +39,7 @@ def Lexer(text):
     Out = ''
 
     if text[0] == "?":
+
         return None
 
     value = text.split()
