@@ -1,7 +1,6 @@
 ##########
 # Vars
 ##########
-import typing_extensions
 
 math = '0123456789+-*/'
 Vars = {}
@@ -38,6 +37,7 @@ def mathematics(cs):
 
 def Lexer(text):
     Out = ''
+
     if text[0] == "?":
         return None
 
