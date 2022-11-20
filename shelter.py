@@ -18,7 +18,6 @@ def calc(input):
     input = input.replace('math{', '')
     input = input.replace('}', '')
     return input
-
 def mathematics(cs, i):
     tex = ''
     State = 0
@@ -52,6 +51,19 @@ def mathematics(cs, i):
         cs = cs.replace(resulttext, str(float(eval(resulttext))))
         return cs
 
+def ifstates(commands):
+    result = []
+    for command in commands:
+        value = command.split()
+
+        if value[1].lower() == "said:":
+            if len(value) > 2:
+                result.append(' '.join(value[2:len(value) + 1]))
+            else:
+                return (error(4))
+    return result
+
+
 def Lexer(text):
 
     if text[0] == "?":
@@ -82,7 +94,7 @@ def Lexer(text):
             else:
                 return (error(4))
 
-        if value[1].lower() == "Remembered:":
+        if value[1].lower() == "remembered:":
             if value[1] == value[-1]:
                 return (error(2))
 
@@ -102,9 +114,32 @@ def Lexer(text):
             return ("You'd fit perfectly to me and we'd end our loneliness.")
 
         if value[1].lower() == "checked":
-            if len(value) > 3:
+            if len(value) > 5:
                 if value[2].lower() == "if:":
-                    return 'FINISH FROM HERE!'
+                    if value[3] != None and value[5] != None:
+                        if value[4] == "==":
+                                listcommands = []
+                                while True:
+                                    ifexe = input('>>>')
+                                    if ifexe != "":
+                                        if (len(ifexe) - len(ifexe.lstrip())) == 1:
+                                            listcommands.append(ifexe)
+                                            continue
+                                        else:
+                                            return 'Inappropriate Indentation.'
+                                    else:
+                                        if value[3] == value[5]:
+                                            x = ifstates(listcommands)
+                                            for output in x:
+                                                print(output)
+
+                                        return None
+                        else:
+                            return "Use '==' in checked command"
+
+                    else:
+                        return 'CALL A VARIABLE ERROR!'
+
 
             else:
                 return 'Error here.'

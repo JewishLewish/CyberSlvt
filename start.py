@@ -8,4 +8,7 @@ while True:
 
     elif text != "":
         result = shelter.run(text)
-        print(result)
+        if result == None:
+            continue
+        else:
+            print(result)
