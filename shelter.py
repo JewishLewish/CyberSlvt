@@ -117,7 +117,7 @@ def Lexer(text):
                                 while True:
                                     ifexe = input('>>>')
                                     if ifexe != "":
-                                        if (len(ifexe) - len(ifexe.lstrip())) == 1:
+                                        if (len(ifexe) - len(ifexe.lstrip()) > (len(text) - len(text.lstrip()))):
                                             listcommands.append(ifexe)
                                             continue
                                         else:
@@ -126,8 +126,10 @@ def Lexer(text):
                                         if value[3] == value[5]:
                                             x = ifstates(listcommands)
                                             for output in x:
-                                                print(output)
-
+                                                if output == None:
+                                                    continue
+                                                else:
+                                                    print(output)
                                         return None
                         else:
                             return "Use '==' in checked command"
