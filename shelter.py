@@ -112,7 +112,7 @@ def Lexer(text):
             if len(value) > 5:
                 if value[2].lower() == "if:":
                     if value[3] != None and value[5] != None:
-                        if value[4] == "==":
+                        if value[4] != None:
                                 listcommands = []
                                 while True:
                                     ifexe = input('>>>')
@@ -123,14 +123,25 @@ def Lexer(text):
                                         else:
                                             return 'Inappropriate Indentation.'
                                     else:
-                                        if value[3] == value[5]:
-                                            x = ifstates(listcommands)
-                                            for output in x:
-                                                if output == None:
-                                                    continue
-                                                else:
-                                                    print(output)
-                                        return None
+                                        if value[4] == "==":
+                                            if value[3] == value[5]:
+                                                x = ifstates(listcommands)
+                                                for output in x:
+                                                    if output == None:
+                                                        continue
+                                                    else:
+                                                        print(output)
+                                            return None
+
+                                        if value[4] == "!=":
+                                            if value[3] != value[5]:
+                                                x = ifstates(listcommands)
+                                                for output in x:
+                                                    if output == None:
+                                                        continue
+                                                    else:
+                                                        print(output)
+                                            return None
                         else:
                             return "Use '==' in checked command"
 
