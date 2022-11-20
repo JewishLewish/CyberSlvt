@@ -46,14 +46,13 @@ def mathematics(cs, i):
             tex = ''
 
     if State == 1:
+        print('goes here')
         value = cs.split()
         return value[i]
 
     elif State == 0:
         cs = cs.replace(resulttext, str(eval(resulttext)))
-        value = cs.split()
-        value[i] = calc(value[i])
-        return value[i]
+        return cs
 
 def Lexer(text):
 
@@ -72,7 +71,9 @@ def Lexer(text):
                     return (error(3))
         if 'math{' in x:
             if x[0:5] == "math{":
-                    value[i] = mathematics(text, i)
+                    text = mathematics(text, i)
+                    value = text.split()
+                    value[i] = calc(value[i])
 
 
     if len(value) > 1:
