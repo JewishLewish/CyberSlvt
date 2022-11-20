@@ -1,6 +1,7 @@
 ## Statements
 She Said: [Text] -> Outputs [Text]
 She Remembered: [Variable] = [Value] -> Makes [Variable] Remembers [Value]
+She Left -> Ends Code.
 She Checked If: {Condition} -> Anything inside will be executed
 
 
