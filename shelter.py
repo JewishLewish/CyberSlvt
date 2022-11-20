@@ -101,12 +101,19 @@ def Lexer(text):
         if value[1].lower() == "left":
             return ("You'd fit perfectly to me and we'd end our loneliness.")
 
+        if value[1].lower() == "checked":
+            if len(value) > 3:
+                if value[2].lower() == "if:":
+                    return 'FINISH FROM HERE!'
+
+            else:
+                return 'Error here.'
+
+
         else:
             return(error(1))
     else:
         return (error(1))
-
-
 
 def run(text):
     lexer = Lexer(text)
