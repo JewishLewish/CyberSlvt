@@ -54,13 +54,8 @@ def mathematics(cs, i):
 def ifstates(commands):
     result = []
     for command in commands:
-        value = command.split()
-
-        if value[1].lower() == "said:":
-            if len(value) > 2:
-                result.append(' '.join(value[2:len(value) + 1]))
-            else:
-                return (error(4))
+        result.append(Lexer(command))
+        continue
     return result
 
 
