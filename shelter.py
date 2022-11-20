@@ -2,7 +2,7 @@
 # Vars
 ##########
 
-math = '0123456789'
+math = '0123456789+-/*()'
 Vars = {}
 Vars['0x0000'] = None
 Error = {
@@ -20,10 +20,6 @@ def calc(input):
     return input
 
 def mathematics(cs, i):
-    if cs[-2] not in math:
-        value = cs.split()
-        return value[i]
-
     tex = ''
     State = 0
     resulttext = ''
@@ -42,16 +38,16 @@ def mathematics(cs, i):
             tex = ''
 
         if State == 1:
-            resulttext += tex
+            if tex in math or tex == " ":
+                resulttext += tex
             tex = ''
 
     if State == 1:
-        print('goes here')
         value = cs.split()
         return value[i]
 
     elif State == 0:
-        cs = cs.replace(resulttext, str(eval(resulttext)))
+        cs = cs.replace(resulttext, str(float(eval(resulttext))))
         return cs
 
 def Lexer(text):
@@ -71,9 +67,10 @@ def Lexer(text):
                     return (error(3))
         if 'math{' in x:
             if x[0:5] == "math{" or x[0:5] == "Math{":
-                    text = mathematics(text, i)
-                    value = text.split()
-                    value[i] = calc(value[i])
+                    ttext = mathematics(text, i)
+                    if ttext != "NOT POSSIBLE":
+                        value = ttext.split()
+                        value[i] = calc(value[i])
 
 
     if len(value) > 1:

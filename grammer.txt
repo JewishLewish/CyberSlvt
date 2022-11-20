@@ -1,2 +1,8 @@
+## Statements
 She Said: [Text] -> Outputs [Text]
 She Remembered: [Variable] = [Value] -> Makes [Variable] Remembers [Value]
+
+
+## Other
+var."variable" -> Calls {variable} data
+math{insert math inside} -> Does the math
