@@ -40,6 +40,8 @@ def mathematics(cs, i):
         if State == 1:
             if tex in math or tex == " ":
                 resulttext += tex
+            else:
+                return "NOT POSSIBLE"
             tex = ''
 
     if State == 1:
