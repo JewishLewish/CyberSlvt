@@ -5,6 +5,7 @@
 math = '0123456789+-/*()'
 Vars = {}
 Vars['0x0000'] = None
+Vars['0x0001'] = 0
 Error = {
     1: "Error with Compiling. Code is not supported.",
     2: "Error with Compiling. Variable wasn't placed.",
@@ -50,7 +51,6 @@ def mathematics(cs, i):
     elif State == 0:
         cs = cs.replace(resulttext, str(float(eval(resulttext))))
         return cs
-
 def ifstates(commands):
     result = []
     for command in commands:
@@ -114,7 +114,7 @@ def Lexer(text):
                     if value[3] != None and value[5] != None:
                         if value[4] != None:
                                 listcommands = []
-                                while True:
+                                while Vars['0x0001'] == 0:
                                     ifexe = input('>>>')
                                     if ifexe != "":
                                         if (len(ifexe) - len(ifexe.lstrip()) > (len(text) - len(text.lstrip()))):
@@ -123,25 +123,28 @@ def Lexer(text):
                                         else:
                                             return 'Inappropriate Indentation.'
                                     else:
-                                        if value[4] == "==":
-                                            if value[3] == value[5]:
-                                                x = ifstates(listcommands)
-                                                for output in x:
-                                                    if output == None:
-                                                        continue
-                                                    else:
-                                                        print(output)
-                                            return None
+                                        Vars['0x0001'] = 1
 
-                                        if value[4] == "!=":
-                                            if value[3] != value[5]:
-                                                x = ifstates(listcommands)
-                                                for output in x:
-                                                    if output == None:
-                                                        continue
-                                                    else:
-                                                        print(output)
-                                            return None
+                                if value[4] == "==":
+                                    if value[3] == value[5]:
+                                        x = ifstates(listcommands)
+                                        for output in x:
+                                            if output == None:
+                                                continue
+                                            else:
+                                                print(output)
+                                    Vars['0x0001'] = 0
+                                    return None
+
+                                if value[4] == "!=":
+                                    if value[3] != value[5]:
+                                        x = ifstates(listcommands)
+                                        for output in x:
+                                            if output == None:
+                                                continue
+                                            else:
+                                                print(output)
+                                    return None
                         else:
                             return "Use '==' in checked command"
 
