@@ -7,8 +7,9 @@ Vars = {}
 Vars['0x0000'] = None
 Error = {
     1: "Error with Compiling. Code is not supported.",
-    2: "Error with Compiling. Variable wasn't placed at all.",
-    3: "Error with Variable Grabbing. Variable was never set or not properly called."
+    2: "Error with Compiling. Variable wasn't placed.",
+    3: "Error with Variable Grabbing. Variable was never set or not properly called.",
+    4: "Error with Compiling. Invalid Input."
 }
 
 def error(errorcode):
@@ -76,7 +77,10 @@ def Lexer(text):
 
     if len(value) > 1:
         if value[1] == "Said:":
-            return (' '.join(value[2:len(value) + 1]))
+            if len(value) > 2:
+                return (' '.join(value[2:len(value) + 1]))
+            else:
+                return (error(4))
 
         if value[1] == "Remembered:":
             if value[1] == value[-1]:
