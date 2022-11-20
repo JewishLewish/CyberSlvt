@@ -76,13 +76,13 @@ def Lexer(text):
 
 
     if len(value) > 1:
-        if value[1] == "Said:":
+        if value[1].lower() == "said:":
             if len(value) > 2:
                 return (' '.join(value[2:len(value) + 1]))
             else:
                 return (error(4))
 
-        if value[1] == "Remembered:":
+        if value[1].lower() == "Remembered:":
             if value[1] == value[-1]:
                 return (error(2))
 
@@ -98,7 +98,7 @@ def Lexer(text):
                 Vars[value[2]] = None
                 return ("Memorized " + value[2])
 
-        if value[1] == "Left":
+        if value[1].lower() == "left":
             return ("You'd fit perfectly to me and we'd end our loneliness.")
 
         else:
