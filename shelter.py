@@ -70,7 +70,7 @@ def Lexer(text):
                 else:
                     return (error(3))
         if 'math{' in x:
-            if x[0:5] == "math{":
+            if x[0:5] == "math{" or x[0:5] == "Math{":
                     text = mathematics(text, i)
                     value = text.split()
                     value[i] = calc(value[i])
