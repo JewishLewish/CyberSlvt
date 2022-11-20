@@ -5,7 +5,14 @@
 math = '0123456789'
 Vars = {}
 Vars['0x0000'] = None
+Error = {
+    1: "Error with Compiling. Code is not supported.",
+    2: "Error with Compiling. Variable wasn't placed at all.",
+    3: "Error with Variable Grabbing. Variable was never set or not properly called."
+}
 
+def error(errorcode):
+    return ('\033[91m' + Error[errorcode] + '\033[0m')
 def calc(input):
     input = input.replace('math{', '')
     input = input.replace('}', '')
@@ -61,7 +68,7 @@ def Lexer(text):
                 if Vars.get(x[4:len(x)+1]) != None:
                     value[i] = Vars.get(x[4:len(x)+1])
                 else:
-                    return ('Variable never was set.')
+                    return (error(3))
         if 'math{' in x:
             if x[0:5] == "math{":
                     value[i] = mathematics(text, i)
@@ -72,7 +79,9 @@ def Lexer(text):
             return (' '.join(value[2:len(value) + 1]))
 
         if value[1] == "Remembered:":
-            Vars[value[2]] = None
+            if value[1] == value[-1]:
+                return (error(2))
+
             if len(value) > 3:
                 if value[3] == "=" and value[-1] != "=":
                     Vars[value[2]] = ' '.join(value[4:len(value) + 1])
@@ -80,10 +89,18 @@ def Lexer(text):
 
                 else:
                     return("Error. Inappropriate code.")
+
             else:
-                return("Error. Inappropriate code.")
+                Vars[value[2]] = None
+                return ("Memorized " + value[2])
+
+        if value[1] == "Left":
+            return ("You'd fit perfectly to me and we'd end our loneliness.")
+
         else:
-            return("Error. Inappropriate code")
+            return(error(1))
+    else:
+        return (error(1))
 
 
 
