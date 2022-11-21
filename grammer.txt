@@ -2,7 +2,8 @@
 She Said: [Text] -> Outputs [Text]
 She Remembered: [Variable] = [Value] -> Makes [Variable] Remembers [Value]
 She Left -> Ends Code.
-She Checked If: {Condition} -> Anything inside will be executed
+She Checked If: {Condition} -> Anything inside will be executed IF statement is true
+She Checked While: {Condition} -> Anything inside will be executed WHILE statement is true
 
 
 ## Other

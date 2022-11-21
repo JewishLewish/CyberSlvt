@@ -1,7 +1,7 @@
 import shelter
 
 while True:
-    text = input('basic > ')
+    text = input('>>>')
 
     if text != "":
         result = shelter.run(text)

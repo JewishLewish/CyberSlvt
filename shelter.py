@@ -74,6 +74,7 @@ def Lexer(text):
                     value[i] = Vars.get(x[4:len(x)+1])
                 else:
                     return (error(3))
+
         if 'math{' in x:
             if x[0:5] == "math{" or x[0:5] == "Math{":
                     ttext = mathematics(text, i)
@@ -110,12 +111,12 @@ def Lexer(text):
 
         if value[1].lower() == "checked":
             if len(value) > 5:
-                if value[2].lower() == "if:":
+                if value[2].lower() == "if:" or value[2].lower() == "while:":
                     if value[3] != None and value[5] != None:
                         if value[4] != None:
                                 listcommands = []
                                 while Vars['0x0001'] == 0:
-                                    ifexe = input('>>>')
+                                    ifexe = input('...')
                                     if ifexe != "":
                                         if (len(ifexe) - len(ifexe.lstrip()) > (len(text) - len(text.lstrip()))):
                                             listcommands.append(ifexe)
@@ -126,15 +127,22 @@ def Lexer(text):
                                         Vars['0x0001'] = 1
 
                                 if value[4] == "==":
-                                    if value[3] == value[5]:
-                                        x = ifstates(listcommands)
-                                        for output in x:
-                                            if output == None:
-                                                continue
-                                            else:
-                                                print(output)
-                                    Vars['0x0001'] = 0
-                                    return None
+                                    if value[2].lower() == "if:":
+                                        if value[3] == value[5]:
+                                            x = ifstates(listcommands)
+                                            for output in x:
+                                                if output == None:
+                                                    continue
+                                                else:
+                                                    print(output)
+                                    elif value[2].lower() == "while:":
+                                        while value[3] == value[5]:
+                                            x = ifstates(listcommands)
+                                            for output in x:
+                                                if output == None:
+                                                    continue
+                                                else:
+                                                    print(output)
 
                                 if value[4] == "!=":
                                     if value[3] != value[5]:
@@ -144,7 +152,16 @@ def Lexer(text):
                                                 continue
                                             else:
                                                 print(output)
-                                    return None
+                                    elif value[2].lower() == "while:":
+                                        while value[3] != value[5]:
+                                            x = ifstates(listcommands)
+                                            for output in x:
+                                                if output == None:
+                                                    continue
+                                                else:
+                                                    print(output)
+                                Vars['0x0001'] = 0
+                                return None
                         else:
                             return "Use '==' in checked command"
 
