@@ -6,6 +6,7 @@ math = '0123456789+-/*()'
 Vars = {}
 Vars['0x0000'] = None
 Vars['0x0001'] = 0
+Vars['x'] = '2'
 Error = {
     1: "Error with Compiling. Code is not supported.",
     2: "Error with Compiling. Variable wasn't placed.",
@@ -21,8 +22,11 @@ def calc(input):
     return input
 def mathematics(cs, i):
     tex = ''
+    texv = ''
     State = 0
+    StateV = 0
     resulttext = ''
+    rtext = ''
     for char in cs:
         tex += char
 
@@ -38,10 +42,30 @@ def mathematics(cs, i):
             tex = ''
 
         if State == 1:
+            rtext += tex
+            texv += tex
+
             if tex in math or tex == " ":
                 resulttext += tex
+                tex = ''
+
+            if StateV == 1:
+                if tex == ' ' or tex in math:
+                    catch = texv[:-1]
+                    StateV = 0
+                    resulttext += Vars[catch] + ' '
+                    tex = ''
+
+            elif texv == "var.":
+                print('oh my.')
+                StateV = 1
+                texv = ''
+
+
             else:
-                return "NOT POSSIBLE"
+                tex = ''
+                continue
+
             tex = ''
 
     if State == 1:
@@ -49,8 +73,9 @@ def mathematics(cs, i):
         return value[i]
 
     elif State == 0:
-        cs = cs.replace(resulttext, str(float(eval(resulttext))))
+        cs = cs.replace(rtext, str(float(eval(resulttext))))
         return cs
+
 def ifstates(commands):
     result = []
     for command in commands:
@@ -97,14 +122,14 @@ def Lexer(text):
             if len(value) > 3:
                 if value[3] == "=" and value[-1] != "=":
                     Vars[value[2]] = ' '.join(value[4:len(value) + 1])
-                    return ("Memorized " + value[2] + " as " + Vars[value[2]])
+                    return None
 
                 else:
                     return("Error. Inappropriate code.")
 
             else:
                 Vars[value[2]] = None
-                return ("Memorized " + value[2])
+                return None
 
         if value[1].lower() == "left":
             return ("You'd fit perfectly to me and we'd end our loneliness.")
