@@ -27,6 +27,7 @@ def mathematics(cs, i):
     StateV = 0
     resulttext = ''
     rtext = ''
+
     for char in cs:
         tex += char
 
@@ -59,6 +60,10 @@ def mathematics(cs, i):
             elif texv == "var.":
                 print('oh my.')
                 StateV = 1
+                texv = ''
+
+            elif tex not in 'var.':
+                print(texv)
                 texv = ''
 
 
