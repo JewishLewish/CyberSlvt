@@ -41,7 +41,6 @@ def variable(input):
                 tex = ''
 
     return(input.replace(replace, Vars[result]))
-
 def error(errorcode):
     return ('\033[91m' + Error[errorcode] + '\033[0m')
 def calc(input):
@@ -87,7 +86,6 @@ def mathematics(cs, i):
     elif State == 0:
         cs = cs.replace(rtext, str(int(eval(resulttext))))
         return cs
-
 def ifstates(commands):
     result = []
     for command in commands:
@@ -95,14 +93,7 @@ def ifstates(commands):
         continue
     return result
 
-
-def Lexer(text):
-
-    if text[0] == "?": #Cancels The Code
-        return None
-
-    value = text.split()
-
+def tconverted(text, value):
     i = -1
     for x in value:
         i = i + 1
@@ -118,6 +109,19 @@ def Lexer(text):
                     if text != "NOT POSSIBLE":
                         value = text.split()
                         value[i] = calc(value[i])
+
+    return text, value
+
+
+def Lexer(text):
+    originalvalue = text.split()
+
+    if text[0] == "?": #Cancels The Code
+        return None
+
+    value = text.split()
+
+    text, value = tconverted(text, value)
 
 
 
@@ -151,7 +155,6 @@ def Lexer(text):
             if len(value) > 5:
                 if value[2].lower() == "if:" or value[2].lower() == "while:":
                     if value[3] != None and value[5] != None:
-                        #print(value[3] + " and " + value[5])
                         if value[4] != None:
                                 listcommands = []
                                 while Vars['0x0001'] == 0:
@@ -182,16 +185,26 @@ def Lexer(text):
                                                     continue
                                                 else:
                                                     print(output)
+                                                    if 'var.' in originalvalue[3]:
+                                                        value[3] = variable(originalvalue[3])
+                                                        text = ' '.join(value)
+
+                                                    if 'var.' in originalvalue[4]:
+                                                        value[5] in variable(originalvalue[5])
+                                                        text = ' '.join(value)
 
                                 if value[4] == "!=":
-                                    if value[3] != value[5]:
-                                        x = ifstates(listcommands)
-                                        for output in x:
-                                            if output == None:
-                                                continue
-                                            else:
-                                                print(output)
+                                    if value[2].lower() == "if:":
+                                        if value[3] != value[5]:
+                                            x = ifstates(listcommands)
+                                            for output in x:
+                                                if output == None:
+                                                    continue
+                                                else:
+                                                    print(output)
+
                                     elif value[2].lower() == "while:":
+
                                         while value[3] != value[5]:
                                             x = ifstates(listcommands)
                                             for output in x:
@@ -199,6 +212,14 @@ def Lexer(text):
                                                     continue
                                                 else:
                                                     print(output)
+                                                    if 'var.' in originalvalue[3]:
+                                                        value[3] = variable(originalvalue[3])
+                                                        text = ' '.join(value)
+
+                                                    if 'var.' in originalvalue[4]:
+                                                        value[5] in variable(originalvalue[5])
+                                                        text = ' '.join(value)
+
                                 Vars['0x0001'] = 0
                                 return None
                         else:
