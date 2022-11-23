@@ -38,6 +38,10 @@ def mathematics(cs, i):
         if tex == "}":
             tex = ''
             State = 0
+            if StateV == 1:
+                StateV = 0
+                resulttext += Vars[texv] + ' '
+                texv = ''
 
         if State == 0:
             tex = ''
@@ -46,26 +50,23 @@ def mathematics(cs, i):
             rtext += tex
             texv += tex
 
-            if tex in math or tex == " ":
+            if tex in math:
                 resulttext += tex
                 tex = ''
+                texv = ''
 
             if StateV == 1:
                 if tex == ' ' or tex in math:
-                    catch = texv[:-1]
                     StateV = 0
-                    resulttext += Vars[catch] + ' '
-                    tex = ''
+                    resulttext += Vars[texv] + ' '
+                    texv = ''
 
             elif texv == "var.":
-                print('oh my.')
                 StateV = 1
                 texv = ''
 
             elif tex not in 'var.':
-                print(texv)
                 texv = ''
-
 
             else:
                 tex = ''
@@ -91,10 +92,11 @@ def ifstates(commands):
 
 def Lexer(text):
 
-    if text[0] == "?":
+    if text[0] == "?": #Cancels The Code
         return None
 
     value = text.split()
+
     i = -1
     for x in value:
         i = i + 1
@@ -104,13 +106,15 @@ def Lexer(text):
                     value[i] = Vars.get(x[4:len(x)+1])
                 else:
                     return (error(3))
-
+    i = -1
+    for x in value:
         if 'math{' in x:
             if x[0:5] == "math{" or x[0:5] == "Math{":
-                    ttext = mathematics(text, i)
-                    if ttext != "NOT POSSIBLE":
-                        value = ttext.split()
+                    text = mathematics(text, i)
+                    if text != "NOT POSSIBLE":
+                        value = text.split()
                         value[i] = calc(value[i])
+
 
 
     if len(value) > 1:
