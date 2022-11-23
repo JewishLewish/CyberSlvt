@@ -13,6 +13,7 @@ Error = {
     2: "Error with Compiling. Variable wasn't placed.",
     3: "Error with Variable Grabbing. Variable was never set or not properly called.",
     4: "Error with Compiling. Invalid Input."
+    5: "Error with Remembering Statement. (She Remembered: (variable name) = (variable's name value)"
 }
 def variable(input):
     State = 0
@@ -92,7 +93,6 @@ def ifstates(commands):
         result.append(Lexer(command))
         continue
     return result
-
 def tconverted(text, value):
     i = -1
     for x in value:
@@ -112,17 +112,15 @@ def tconverted(text, value):
 
     return text, value
 
-
 def Lexer(text):
-    originalvalue = text.split()
 
     if text[0] == "?": #Cancels The Code
         return None
 
     value = text.split()
+    originalvalue = text.split()
 
     text, value = tconverted(text, value)
-
 
 
     if len(value) > 1:
@@ -142,7 +140,7 @@ def Lexer(text):
                     return None
 
                 else:
-                    return("Error. Inappropriate code.")
+                    return((error(5)))
 
             else:
                 Vars[value[2]] = None
@@ -231,7 +229,6 @@ def Lexer(text):
 
             else:
                 return 'Error here.'
-
 
         else:
             return(error(1))
