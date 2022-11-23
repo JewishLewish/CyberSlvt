@@ -3,6 +3,7 @@
 ##########
 
 math = '0123456789+-/*()'
+Varsil = '})]'
 Vars = {}
 Vars['0x0000'] = None
 Vars['0x0001'] = 0
@@ -13,6 +14,33 @@ Error = {
     3: "Error with Variable Grabbing. Variable was never set or not properly called.",
     4: "Error with Compiling. Invalid Input."
 }
+def variable(input):
+    State = 0
+    tex = ''
+    result = ''
+    replace = ''
+    for char in input:
+        tex += char
+        if char in Varsil:
+            continue
+
+        if State == 0:
+            if tex in 'var.':
+                if tex == 'var.':
+                    State = 1
+                    replace += tex
+                    tex = ''
+            else:
+                tex = ''
+
+        if State == 1:
+            if tex != ' ' or tex != '}':
+                result += tex
+                replace += tex
+            else:
+                tex = ''
+
+    return(input.replace(replace, Vars[result]))
 
 def error(errorcode):
     return ('\033[91m' + Error[errorcode] + '\033[0m')
@@ -22,9 +50,7 @@ def calc(input):
     return input
 def mathematics(cs, i):
     tex = ''
-    texv = ''
     State = 0
-    StateV = 0
     resulttext = ''
     rtext = ''
 
@@ -38,35 +64,15 @@ def mathematics(cs, i):
         if tex == "}":
             tex = ''
             State = 0
-            if StateV == 1:
-                StateV = 0
-                resulttext += Vars[texv] + ' '
-                texv = ''
 
         if State == 0:
             tex = ''
 
         if State == 1:
             rtext += tex
-            texv += tex
 
             if tex in math:
                 resulttext += tex
-                tex = ''
-                texv = ''
-
-            if StateV == 1:
-                if tex == ' ' or tex in math:
-                    StateV = 0
-                    resulttext += Vars[texv] + ' '
-                    texv = ''
-
-            elif texv == "var.":
-                StateV = 1
-                texv = ''
-
-            elif tex not in 'var.':
-                texv = ''
 
             else:
                 tex = ''
@@ -101,11 +107,9 @@ def Lexer(text):
     for x in value:
         i = i + 1
         if 'var.' in x:
-            if x[0:4] == "var.":
-                if Vars.get(x[4:len(x)+1]) != None:
-                    value[i] = Vars.get(x[4:len(x)+1])
-                else:
-                    return (error(3))
+            value[i] = variable(value[i])
+            text = ' '.join(value)
+
     i = -1
     for x in value:
         if 'math{' in x:
