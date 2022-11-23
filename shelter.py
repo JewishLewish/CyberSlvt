@@ -85,7 +85,7 @@ def mathematics(cs, i):
         return value[i]
 
     elif State == 0:
-        cs = cs.replace(rtext, str(float(eval(resulttext))))
+        cs = cs.replace(rtext, str(int(eval(resulttext))))
         return cs
 
 def ifstates(commands):
