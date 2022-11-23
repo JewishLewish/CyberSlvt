@@ -149,7 +149,7 @@ def Lexer(text):
                 return None
 
         if value[1].lower() == "left":
-            return ("You'd fit perfectly to me and we'd end our loneliness.")
+            return ("You'd fit perfectly to me and we'd end our loneliness. Melt this curse away.")
 
         if value[1].lower() == "checked":
             if len(value) > 5:
