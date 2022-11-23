@@ -151,6 +151,7 @@ def Lexer(text):
             if len(value) > 5:
                 if value[2].lower() == "if:" or value[2].lower() == "while:":
                     if value[3] != None and value[5] != None:
+                        #print(value[3] + " and " + value[5])
                         if value[4] != None:
                                 listcommands = []
                                 while Vars['0x0001'] == 0:
