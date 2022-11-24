@@ -3,7 +3,7 @@
 ##########
 
 math = '0123456789+-/*().'
-Varsil = '})];'
+Varsil = '})];' #illegal characters for variables
 Vars = {}
 Vars['0x0000'] = None
 Vars['0x0001'] = 0
@@ -13,7 +13,8 @@ Error = {
     2: "Error with Compiling. Variable wasn't placed.",
     3: "Error with Variable Grabbing. Variable was never set or not properly called.",
     4: "Error with Compiling. Invalid Input.",
-    5: "Error with Remembering Statement. (She Remembered: (variable name) = (variable's name value)"
+    5: "Error with Remembering Statement. (She Remembered: (variable name) = (variable's name value)",
+    6: "Error with Remmebering Statement. Using illegal characters."
 }
 def variable(input):
     State = 0
@@ -154,7 +155,10 @@ def Lexer(text):
 
             if len(value) > 3:
                 if value[3] == "=" and value[-1] != "=":
-                    Vars[value[2]] = ' '.join(value[4:len(value) + 1])
+                    if ' '.join(value[4:len(value) + 1]) in Varsil:
+                        return((error(6)))
+                    else:
+                        Vars[value[2]] = ' '.join(value[4:len(value) + 1])
                     return None
 
                 else:
