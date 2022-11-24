@@ -253,8 +253,6 @@ def Lexer(text):
                     Vars['0x0002'] = 1
                     for command in Lines:
                         test = command.split()
-                        print(test[2])
-
                         if command == '\n':
                             continue
                         else:
@@ -276,7 +274,6 @@ def Lexer(text):
         return (error(1))
 
     return None
-
 def run(text):
     lexer = Lexer(text)
     return lexer
