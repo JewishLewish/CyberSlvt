@@ -8,7 +8,6 @@ Vars = {}
 Vars['0x0000'] = None
 Vars['0x0001'] = 0
 Vars['0x0002'] = 0 #Variable for if loop is happening while being read
-Vars['x'] = '2'
 Error = {
     1: "Error with Compiling. Code is not supported.",
     2: "Error with Compiling. Variable wasn't placed.",
@@ -163,16 +162,12 @@ def Lexer(text):
         if value[1].lower() == "stopped":
             return 'kill switch.'
 
-
         if value[1].lower() == "checked":
             if len(value) > 5:
                 if value[2].lower() == "if:" or value[2].lower() == "while:":
                     if value[3] != None and value[5] != None:
                         if value[4] != None:
                                 listcommands = []
-                                if Vars['0x0002'] == 1:
-                                    print('THIS IS BEING WRITTEN!')
-
                                 while Vars['0x0001'] == 0:
                                     ifexe = input('...')
                                     if ifexe != "":
@@ -258,6 +253,9 @@ def Lexer(text):
                     Lines = open('main.svlt', 'r').readlines()
                     Vars['0x0002'] = 1
                     for command in Lines:
+                        test = command.split()
+                        print(test[2])
+
                         if command == '\n':
                             continue
                         else:

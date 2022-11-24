@@ -11,4 +11,4 @@ while True:
             print(result)
             exit(0)
         else:
-            print("heh" + result)
+            print(result)
