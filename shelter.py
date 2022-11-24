@@ -249,9 +249,8 @@ def Lexer(text):
         if value[1].lower() == "ran:":
             if len(value) > 2:
                 if value[2] != None:
-                    Lines = open('main.svlt', 'r').readlines()
                     Vars['0x0002'] = 1
-                    for command in Lines:
+                    for command in open('main.svlt', 'r').readlines():
                         test = command.split()
                         if command == '\n':
                             continue
