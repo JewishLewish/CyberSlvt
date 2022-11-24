@@ -111,7 +111,6 @@ def tconverted(text, value):
                         value[i] = calc(value[i])
 
     return text, value
-
 def Lexer(text):
 
     if text[0] == "?": #Cancels The Code
@@ -128,7 +127,6 @@ def Lexer(text):
         return None
 
     value = text.split()
-    originalvalue = text.split()
     text, value = tconverted(text, value)
 
     if len(value) > 1:
@@ -179,6 +177,7 @@ def Lexer(text):
                                     else:
                                         Vars['0x0001'] = 1
 
+                                originalvalue = text.split()
                                 if value[4] == "==":
                                     if value[2].lower() == "if:":
                                         if value[3] == value[5]:
