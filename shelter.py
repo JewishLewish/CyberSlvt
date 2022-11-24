@@ -3,16 +3,17 @@
 ##########
 
 math = '0123456789+-/*()'
-Varsil = '})]'
+Varsil = '})];'
 Vars = {}
 Vars['0x0000'] = None
 Vars['0x0001'] = 0
+Vars['0x0002'] = 0 #Variable for if loop is happening while being read
 Vars['x'] = '2'
 Error = {
     1: "Error with Compiling. Code is not supported.",
     2: "Error with Compiling. Variable wasn't placed.",
     3: "Error with Variable Grabbing. Variable was never set or not properly called.",
-    4: "Error with Compiling. Invalid Input."
+    4: "Error with Compiling. Invalid Input.",
     5: "Error with Remembering Statement. (She Remembered: (variable name) = (variable's name value)"
 }
 def variable(input):
@@ -117,11 +118,19 @@ def Lexer(text):
     if text[0] == "?": #Cancels The Code
         return None
 
+    if ";" in text:
+        sevcommands = text.split(';')
+        for command in sevcommands:
+            lexer = Lexer(command.strip())
+            if lexer == None:
+                continue
+            else:
+                print(lexer)
+        return None
+
     value = text.split()
     originalvalue = text.split()
-
     text, value = tconverted(text, value)
-
 
     if len(value) > 1:
         if value[1].lower() == "said:":
@@ -147,7 +156,13 @@ def Lexer(text):
                 return None
 
         if value[1].lower() == "left":
-            return ("You'd fit perfectly to me and we'd end our loneliness. Melt this curse away.")
+            print("You'd fit perfectly to me and we'd end our loneliness. Melt this curse away.")
+            exit(0)
+            return None
+
+        if value[1].lower() == "stopped":
+            return 'kill switch.'
+
 
         if value[1].lower() == "checked":
             if len(value) > 5:
@@ -155,6 +170,9 @@ def Lexer(text):
                     if value[3] != None and value[5] != None:
                         if value[4] != None:
                                 listcommands = []
+                                if Vars['0x0002'] == 1:
+                                    print('THIS IS BEING WRITTEN!')
+
                                 while Vars['0x0001'] == 0:
                                     ifexe = input('...')
                                     if ifexe != "":
@@ -181,15 +199,19 @@ def Lexer(text):
                                             for output in x:
                                                 if output == None:
                                                     continue
-                                                else:
-                                                    print(output)
-                                                    if 'var.' in originalvalue[3]:
-                                                        value[3] = variable(originalvalue[3])
-                                                        text = ' '.join(value)
+                                                elif output != None:
+                                                    if output != 'kill switch.':
+                                                        print(output)
+                                                        if 'var.' in originalvalue[3]:
+                                                            value[3] = variable(originalvalue[3])
+                                                            text = ' '.join(value)
 
-                                                    if 'var.' in originalvalue[4]:
-                                                        value[5] in variable(originalvalue[5])
-                                                        text = ' '.join(value)
+                                                        if 'var.' in originalvalue[4]:
+                                                            value[5] in variable(originalvalue[5])
+                                                            text = ' '.join(value)
+                                                    else:
+                                                        value[3] = 'break'
+                                                        value[5] = 'break2'
 
                                 if value[4] == "!=":
                                     if value[2].lower() == "if:":
@@ -230,10 +252,33 @@ def Lexer(text):
             else:
                 return 'Error here.'
 
+        if value[1].lower() == "ran:":
+            if len(value) > 2:
+                if value[2] != None:
+                    Lines = open('main.svlt', 'r').readlines()
+                    Vars['0x0002'] = 1
+                    for command in Lines:
+                        if command == '\n':
+                            continue
+                        else:
+                            lexer = Lexer(command.strip())
+                            if lexer == None:
+                                continue
+                            else:
+                                print(lexer)
+
+                else:
+                    return "File not placed."
+            else:
+                return "Not enough arguements."
+
         else:
             return(error(1))
+
     else:
         return (error(1))
+
+    return None
 
 def run(text):
     lexer = Lexer(text)
