@@ -157,9 +157,6 @@ def Lexer(text):
             exit(0)
             return None
 
-        if value[1].lower() == "stopped":
-            return 'kill switch.'
-
         if value[1].lower() == "checked":
             if len(value) > 5:
                 if value[2].lower() == "if:" or value[2].lower() == "while:":
