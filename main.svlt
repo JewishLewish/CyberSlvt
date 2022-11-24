@@ -1,3 +1,2 @@
-She remembered: x = 2
-She Said: math{var.x + 2}
-She Left    ?Anything Past "Left is closed."
+She remembered: x = 2; She Said: math{var.x + 2}
+She Left

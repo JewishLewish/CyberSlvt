@@ -1,9 +1,11 @@
 import shelter
+statements = []
 
 for command in open('main.svlt', 'r').readlines():
     if command == '\n':
         continue
     else:
+        statements.append(command)
         result = shelter.run(command)
         if result == None:
             continue
@@ -12,3 +14,6 @@ for command in open('main.svlt', 'r').readlines():
             exit(0)
         else:
             print(result)
+
+
+print(statements)

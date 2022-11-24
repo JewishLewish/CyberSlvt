@@ -45,10 +45,11 @@ def variable(input):
 def error(errorcode):
     return ('\033[91m' + Error[errorcode] + '\033[0m')
 def calc(input):
+    input = input.replace('floatmath{', '')
     input = input.replace('math{', '')
     input = input.replace('}', '')
     return input
-def mathematics(cs, i):
+def mathematics(cs, i, type):
     tex = ''
     State = 0
     resulttext = ''
@@ -85,8 +86,12 @@ def mathematics(cs, i):
         return value[i]
 
     elif State == 0:
-        cs = cs.replace(rtext, str(int(eval(resulttext))))
-        return cs
+        if type == "int":
+            cs = cs.replace(rtext, str(int(eval(resulttext))))
+            return cs
+        if type == "float":
+            cs = cs.replace(rtext, str(float(eval(resulttext))))
+            return cs
 def ifstates(commands):
     result = []
     for command in commands:
@@ -104,8 +109,15 @@ def tconverted(text, value):
     i = -1
     for x in value:
         if 'math{' in x:
-            if x[0:5] == "math{" or x[0:5] == "Math{":
-                    text = mathematics(text, i)
+            if x[0:5].lower() == "math{":
+                    text = mathematics(text, i, "int")
+                    if text != "NOT POSSIBLE":
+                        value = text.split()
+                        value[i] = calc(value[i])
+
+        if 'floatmath{' in x:
+            if x[0:10].lower() == "floatmath{":
+                    text = mathematics(text, i, "float")
                     if text != "NOT POSSIBLE":
                         value = text.split()
                         value[i] = calc(value[i])
@@ -154,7 +166,6 @@ def Lexer(text):
 
         if value[1].lower() == "left":
             print("You'd fit perfectly to me and we'd end our loneliness. Melt this curse away.")
-            exit(0)
             return None
 
         if value[1].lower() == "checked":
