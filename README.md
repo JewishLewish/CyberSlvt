@@ -13,6 +13,8 @@ Coding Language for Data Engineering
 
 ```She Checked While: [CONDITION]``` -> Will Run Anything Inside, While it's true
 
+```She Left``` -> Ends the file entirely.
+
 
 ## Callings
 ```var.[VARIABLE NAME]``` -> Replaces the variable with the value of the variable.

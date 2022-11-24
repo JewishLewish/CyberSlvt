@@ -242,27 +242,9 @@ def Lexer(text):
                     else:
                         return 'CALL A VARIABLE ERROR!'
 
-
-            else:
-                return 'Error here.'
-
-        if value[1].lower() == "ran:":
-            if len(value) > 2:
-                if value[2] != None:
-                    Vars['0x0002'] = 1
-                    for command in open('main.svlt', 'r').readlines():
-                        test = command.split()
-                        if command == '\n':
-                            continue
-                        else:
-                            lexer = Lexer(command.strip())
-                            if lexer == None:
-                                continue
-                            else:
-                                print(lexer)
-
                 else:
                     return "File not placed."
+
             else:
                 return "Not enough arguements."
 
