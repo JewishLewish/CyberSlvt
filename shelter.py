@@ -7,7 +7,6 @@ Varsil = '})];' #illegal characters for variables
 Vars = {}
 Vars['0x0000'] = None
 Vars['0x0001'] = 0
-Vars['0x0002'] = 0 #Variable for if loop is happening while being read
 Error = {
     1: "Error with Compiling. Code is not supported.",
     2: "Error with Compiling. Variable wasn't placed.",
