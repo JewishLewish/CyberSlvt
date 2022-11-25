@@ -13,7 +13,9 @@ Error = {
     3: "Error with Variable Grabbing. Variable was never set or not properly called.",
     4: "Error with Compiling. Invalid Input.",
     5: "Error with Remembering Statement. (She Remembered: (variable name) = (variable's name value)",
-    6: "Error with Remmebering Statement. Using illegal characters."
+    6: "Error with Remmebering Statement. Using illegal characters.",
+    7: "Error with Compiling. Not enough arguments.",
+    8: "Error with Compiling. Use '==' or '!='"
 }
 def variable(input):
     State = 0
@@ -248,16 +250,13 @@ def Lexer(text):
                                 Vars['0x0001'] = 0
                                 return None
                         else:
-                            return "Use '==' in checked command"
+                            return((error(8)))
 
                     else:
-                        return 'CALL A VARIABLE ERROR!'
-
-                else:
-                    return "File not placed."
+                        return((error(3)))
 
             else:
-                return "Not enough arguements."
+                return((error(7)))
 
         else:
             return(error(1))
