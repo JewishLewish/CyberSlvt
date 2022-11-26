@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/65754609/204068035-cdd50b9c-c611-48c5-9bff-35499bd7e6aa.png" width="200">
+</p>
+
 # CyberSlvt
 Cyberslvt was created as a 'joke' coding language for me to work on while I was bored. It does function perfectly and I will work on minor updates time to time. If you are interested in adding more or forking onto the code then feel free to do so. 
 
