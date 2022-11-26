@@ -17,8 +17,6 @@ Cyberslvt was created as a 'joke' coding language for me to work on while I was 
 
 ```She Checked While: [CONDITION]``` -> Will Run Anything Inside, While it's true
 
-```She Left``` -> Ends the file entirely.
-
 
 ## Callings
 ```var.[VARIABLE NAME]``` -> Replaces the variable with the value of the variable.
