@@ -265,6 +265,7 @@ def Lexer(text):
         return (error(1))
 
     return None
+
 def run(text):
     lexer = Lexer(text)
     return lexer
