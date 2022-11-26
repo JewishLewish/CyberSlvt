@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/65754609/204068035-cdd50b9c-c611-48c5-9bff-35499bd7e6aa.png" width="200">
+  <img src="https://repository-images.githubusercontent.com/565675091/37697c57-33ef-441f-a3dd-169562b14300" width="1080">
 </p>
 
 # CyberSlvt
