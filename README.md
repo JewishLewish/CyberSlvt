@@ -1,5 +1,9 @@
+<p align="center">
+  <img src="https://repository-images.githubusercontent.com/565675091/37697c57-33ef-441f-a3dd-169562b14300" width="1080">
+</p>
+
 # CyberSlvt
-Coding Language for Data Engineering
+Cyberslvt was created as a 'joke' coding language for me to work on while I was bored. It does function perfectly and I will work on minor updates time to time. If you are interested in adding more or forking onto the code then feel free to do so. 
 
 
 ## Statements
@@ -13,13 +17,13 @@ Coding Language for Data Engineering
 
 ```She Checked While: [CONDITION]``` -> Will Run Anything Inside, While it's true
 
-```She Left``` -> Ends the file entirely.
-
 
 ## Callings
 ```var.[VARIABLE NAME]``` -> Replaces the variable with the value of the variable.
 
-```math{[INT IN HERE]}``` -> Does the math inside the math{} calling.
+```math{[INSERT MATH EQUATION]}``` -> Does the math inside the math{} calling. Outputs int.
+
+```floatmath{[INSERT MATH EQUATION]}``` -> Does the math inside the math{} calling. Outputs float.
 
 ## Other
 ```;``` -> Can be used to make two lines of command run in one sentence.
