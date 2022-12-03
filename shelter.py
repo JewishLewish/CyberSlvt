@@ -131,8 +131,7 @@ def Lexer(text):
         return None
 
     if ";" in text:
-        sevcommands = text.split(';')
-        for command in sevcommands:
+        for command in text.split(';'):
             lexer = Lexer(command.strip())
             if lexer == None:
                 continue
