@@ -1,3 +1,5 @@
 She Remembered: x = 2
+She Said: var.x
 She Checked If: var.x == 2
     She Said: Hello World
+    She Said: Do you miss me?

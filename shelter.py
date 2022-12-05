@@ -174,14 +174,14 @@ def Lexer(text):
 
         if value[1].lower() == "ran":
             with open('main.svlt', 'r') as file:
-                data = file.read().replace('\n    ','*nt*')
+                data = file.read().replace('\n    ',' *nt*')
             data = data.split("\n")
 
             for command in data:
-                command = command.replace('*nt*','\n    ')
-                print(command)
-                print(Lexer(command))
-
+                if Lexer(command) == None:
+                    continue
+                else:
+                    print(Lexer(command))
             return None
 
         if value[1].lower() == "checked":
@@ -191,15 +191,29 @@ def Lexer(text):
                         if value[4] != None:
                                 listcommands = []
                                 while Vars['0x0001'] == 0:
-                                    ifexe = input('...')
-                                    if ifexe != "":
-                                        if (len(ifexe) - len(ifexe.lstrip()) > (len(text) - len(text.lstrip()))):
-                                            listcommands.append(ifexe)
-                                            continue
-                                        else:
-                                            return 'Inappropriate Indentation.'
-                                    else:
+                                    if " *nt*" in text:
+                                        y = text.replace(' *nt*', '\n    ').split("\n")
+                                        for theinput in y:
+                                            if theinput in text:
+                                                continue
+                                            else:
+                                                if (len(theinput) - len(theinput.lstrip()) > (len(text) - len(text.lstrip()))):
+                                                    listcommands.append(theinput)
+                                                    continue
+                                                else:
+                                                    return 'Inappropriate Indentation'
                                         Vars['0x0001'] = 1
+
+                                    else:
+                                        ifexe = input('...')
+                                        if ifexe != "":
+                                            if (len(ifexe) - len(ifexe.lstrip()) > (len(text) - len(text.lstrip()))):
+                                                listcommands.append(ifexe)
+                                                continue
+                                            else:
+                                                return 'Inappropriate Indentation.'
+                                        else:
+                                            Vars['0x0001'] = 1
 
                                 originalvalue = text.split()
                                 if value[4] == "==":
