@@ -1,6 +1,6 @@
-from setuptools import setup
-from Cython.Build import cythonize
+#from setuptools import setup
+#from Cython.Build import cythonize
 
-setup(
-    ext_modules = cythonize("shelter.py")
-)
+#setup(
+#    ext_modules = cythonize("shelter.py")
+#)

@@ -172,6 +172,18 @@ def Lexer(text):
             print("You'd fit perfectly to me and we'd end our loneliness. Melt this curse away.")
             return None
 
+        if value[1].lower() == "ran":
+            with open('main.svlt', 'r') as file:
+                data = file.read().replace('\n    ','*nt*')
+            data = data.split("\n")
+
+            for command in data:
+                command = command.replace('*nt*','\n    ')
+                print(command)
+                print(Lexer(command))
+
+            return None
+
         if value[1].lower() == "checked":
             if len(value) > 5:
                 if value[2].lower() == "if:" or value[2].lower() == "while:":
