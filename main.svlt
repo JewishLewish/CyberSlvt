@@ -1,4 +1,5 @@
-She Remembered: y = 2
+She Remembered: my_crush = Decah
 
-She Checked If: var.y == 3
-    She Said: Hello
+She Checked If: var.my_crush == Decah
+    She Checked If: var.my_crush == Decah
+        She Said: hello world

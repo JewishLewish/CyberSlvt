@@ -40,10 +40,13 @@ def variable(input):
             if tex != ' ' or tex != '}':
                 result += tex
                 replace += tex
+                tex = ''
             else:
                 tex = ''
 
+
     return(input.replace(replace, Vars[result]))
+
 def error(errorcode):
     return ('\033[91m' + Error[errorcode] + '\033[0m')
 def calc(input):
@@ -139,8 +142,20 @@ def Lexer(text):
                 print(lexer)
         return None
 
+    ftext = "n/a"
     value = text.split()
-    text, value = tconverted(text, value)
+    if " *nt" in text:
+        ftext = text.split(" *nt")[0]
+        fvalue = ftext.split()
+        ftext, fvalue = tconverted(ftext, fvalue)
+        text = text.replace(text.split(" *nt")[0], ftext)
+        i = 0
+        for ritem in fvalue:
+            value[i] = ritem
+            i = i + 1
+
+    if ftext == "n/a":
+        text, value = tconverted(text, value)
 
     if len(value) > 1:
         if value[1].lower() == "said:":
@@ -178,10 +193,13 @@ def Lexer(text):
             data = data.split("\n")
 
             for command in data:
-                if Lexer(command) == None:
+                if command == '':
+                    continue
+                elif Lexer(command) == None:
                     continue
                 else:
                     print(Lexer(command))
+
             return None
 
         if value[1].lower() == "checked":
@@ -201,7 +219,7 @@ def Lexer(text):
                                                     listcommands.append(theinput)
                                                     continue
                                                 else:
-                                                    return 'Inappropriate Indentation'
+                                                    break
                                         Vars['0x0001'] = 1
 
                                     else:
@@ -216,6 +234,7 @@ def Lexer(text):
                                             Vars['0x0001'] = 1
 
                                 originalvalue = text.split()
+
                                 if value[4] == "==":
                                     if value[2].lower() == "if:":
                                         if value[3] == value[5]:
