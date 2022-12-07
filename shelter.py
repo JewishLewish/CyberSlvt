@@ -210,7 +210,7 @@ def Lexer(text):
                                 listcommands = []
                                 while Vars['0x0001'] == 0:
                                     if " *nt*" in text:
-                                        y = text.replace(' *nt*', '\n    ').split("\n")
+                                        y = text.replace(' *nt*', '\n    ').replace('*t*','    ').split("\n")
                                         for theinput in y:
                                             if theinput in text:
                                                 continue

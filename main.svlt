@@ -1,5 +1,6 @@
 She Remembered: my_crush = Decah
+She Said: var.my_crush
 
-She Checked If: var.my_crush == Decah
-    She Checked If: var.my_crush == Decah
+She Checked If: var.my_crush != BigThink
+    She Checked If: var.my_crush == BigThink
         She Said: hello world
