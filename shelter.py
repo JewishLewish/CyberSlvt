@@ -188,7 +188,7 @@ def Lexer(text):
             return None
 
         if value[1].lower() == "ran":
-            with open('main.svlt', 'r') as file:
+            with open('main.slvt', 'r') as file:
                 data = file.read().replace('\n    ',' *nt*')
             data = data.split("\n")
 

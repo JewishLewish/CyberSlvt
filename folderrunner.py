@@ -1,7 +1,7 @@
 import shelter
 statements = []
 
-for command in open('main.svlt', 'r').readlines():
+for command in open('main.slvt', 'r').readlines():
     if command == '\n':
         continue
     else:
